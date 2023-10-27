@@ -22,7 +22,7 @@ export default function App() {
   async function queryFn() {
     const response = await fetch(
       "https://api.github.com/repos/dsvgit/slatesbox",
-    )
+    );
 
     if (!response.ok) {
       const error = (await response.json()) as ResError;
