@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { pick } from "ramda";
 
 type ResData = {
   name: string;
@@ -19,10 +20,8 @@ export default function App() {
     queryFn,
   });
 
-  async function queryFn() {
-    const response = await fetch(
-      "https://api.github.com/repos/dsvgit/slatesbox",
-    )
+  async function queryFn(): Promise<ResData> {
+    const response = await fetch("https://api.github.com/repos/facebook/react");
 
     if (!response.ok) {
       const error = (await response.json()) as ResError;
@@ -30,7 +29,16 @@ export default function App() {
     }
 
     const data = (await response.json()) as ResData;
-    return data;
+    return pick(
+      [
+        "name",
+        "description",
+        "subscribers_count",
+        "stargazers_count",
+        "forks_count",
+      ],
+      data
+    );
   }
 
   if (isPending) {
